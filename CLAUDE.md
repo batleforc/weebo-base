@@ -14,6 +14,8 @@ All the rule in the Eclipse Che block will be applied only if you can find an en
 
 **If the code cli is not available search for the code-oss one** code cli may not always be available, the code-oss perfecly does the job if needed.
 
+**If you need the full name of the pod use the $HOSTNAME or the hostname command to get it**
+
 ## Command
 
 ### Mise
@@ -35,6 +37,40 @@ A devfile is a yaml describing a cloud development environment, the schema can b
 
 
 <!-- /Eclipse Che Dedicated instruction --->
+
+<!-- WeeboDevEnv Dedicated instruction --->
+
+# Weebo Dev Env - Guideline for the Weebo Dev Env
+
+## Taskfile
+
+All the command are controlled through Taskfile and need the docs field filled in order tu understand what the command does.
+
+If multiple command has the same target like launching test, split the command in a separate taskfile that will be put in the .task folder.
+
+## Mise
+
+Mise is the de-facto package manager, you have no root right, never, and should use it if need come to be.
+
+## Skills
+
+Weebo Dev skills exist, and can be found [here](https://github.com/batleforc/weebo-skills), the one very important if you do ui, is the monofolio one who is a design system. 
+
+## Doc and Gen
+
+### Backend
+
+If you create a backend that generate an api in rust, use [Utoipa](https://github.com/juhaku/utoipa) with it's scalar crate for the ui to write the swagger doc has you write the api
+
+### Frontend
+
+If you create a frontend that consume the backend, use the generated swagger api and generate the client to call it with [HeyApi](http://github.com/hey-api/hey-api) and it's axios plugin.
+
+### Global Doc
+
+For every project, maintain a docs folder, either plain blank markdown or use a static fumadoc to generate the doc
+
+<!-- /WeeboDevEnv Dedicated instruction --->
 
 <!-- rtk-instructions v2 -->
 # RTK (Rust Token Killer) - Token-Optimized Commands
