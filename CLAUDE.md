@@ -16,6 +16,8 @@ All the rule in the Eclipse Che block will be applied only if you can find an en
 
 **If you need the full name of the pod use the $HOSTNAME or the hostname command to get it**
 
+**Check the storage consumption of folder like target or node_module** If the storage consumption of those folder become too big, delete them
+
 ## Command
 
 ### Mise
