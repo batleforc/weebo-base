@@ -10,7 +10,7 @@ All the rule in the Eclipse Che block will be applied only if you can find an en
 
 **Root access you don't have** You have no root access, in this case the usage of any standard package manager won't be possible, if you need something, first search if you can find it in mise database then ask the user if you can install it.
 
-**Docker/Podman can't be used** At the moment no container engine can be used direcly but you can read or update the file named `devfile.yaml` that describe the user's environment. After change the user need to do a restart from local devfile.
+**Docker/Podman can't be used** At the moment no container engine can be used direcly but you can read or update the file named `devfile.yaml` that describe the user's environment. After change the user need to do a restart from local devfile. the Update of the devfile could bring you any container that can be needed. if one doesn't start at first you can do it in two wave, make the container `sleep infinity` and create a sub task related to the sidecar that start it.
 
 **If the code cli is not available search for the code-oss one** code cli may not always be available, the code-oss perfecly does the job if needed.
 
