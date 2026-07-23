@@ -58,7 +58,7 @@ Mise is the de-facto package manager, you have no root right, never, and should 
 
 Weebo Dev skills exist, and can be found [here](https://github.com/batleforc/weebo-skills), the one very important if you do ui, is the monofolio one who is a design system. 
 
-## Doc and Gen
+## Doc / Gen / Guideline
 
 ### Backend
 
@@ -70,7 +70,17 @@ If you create a frontend that consume the backend, use the generated swagger api
 
 ### Global Doc
 
-For every project, maintain a docs folder, either plain blank markdown or use a static fumadoc to generate the doc
+For every project, maintain a docs folder, either plain blank markdown or use a static fumadoc to generate the doc (ask the user for what he want)
+
+### Version and security
+
+Always make a super audit task command, the goal of this command is to check if there is any cve that can be found against the package manager or the Dockerfile.
+
+Also, has much as possible, use the latest version of a package if it doesn't have a CVE.
+
+### Dockerfile / Containerfile
+
+Has much has possible use a multi staged build in order to reduce the end image size. In the futur if you need reference to Containerfile, you can check [this repo](https://github.com/batleforc/batlehub) wich has a Containerfile and a Containerfile.hardened.
 
 <!-- /WeeboDevEnv Dedicated instruction --->
 

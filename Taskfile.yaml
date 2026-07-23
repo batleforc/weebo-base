@@ -1,5 +1,8 @@
 version: "3"
 
+includes:
+  mise: ./.tasks/mise.yaml
+
 tasks:
   init:
     desc: "Init folder"
