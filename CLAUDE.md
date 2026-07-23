@@ -4,38 +4,38 @@
 
 ## Condition
 
-All the rule in the Eclipse Che block will be applied only if you can find an env var named WORKSPACE_NAME with a value.
+All the rules in the Eclipse Che block apply only if an env var named WORKSPACE_NAME exists with a non-empty value. The block spans from the `Eclipse Che Dedicated instruction` comment down to the closing `/Eclipse Che Dedicated instruction` comment (i.e. everything up to the "Weebo Dev Env" section).
 
 ## Golden Rule
 
-**Root access you don't have** You have no root access, in this case the usage of any standard package manager won't be possible, if you need something, first search if you can find it in mise database then ask the user if you can install it.
+**You don't have root access** No standard system package manager (apt, dnf, ...) can be used. If you need a tool, first search for it in the mise registry, then ask the user before installing it.
 
-**Docker/Podman can't be used** At the moment no container engine can be used direcly but you can read or update the file named `devfile.yaml` that describe the user's environment. After change the user need to do a restart from local devfile. the Update of the devfile could bring you any container that can be needed. if one doesn't start at first you can do it in two wave, make the container `sleep infinity` and create a sub task related to the sidecar that start it.
+**Docker/Podman can't be used** No container engine is directly available. Instead, you can read or update the `devfile.yaml` file that describes the user's environment; any container you need can be added there as a sidecar. After a change, the user must restart the workspace from the local devfile. If a sidecar fails to start on the first try, proceed in two steps: make the container run `sleep infinity`, then create a follow-up task dedicated to starting the actual process inside that sidecar.
 
-**If the code cli is not available search for the code-oss one** code cli may not always be available, the code-oss perfecly does the job if needed.
+**If the `code` cli is not available, use `code-oss`** The `code` cli may not always be present; `code-oss` does the job just as well.
 
-**If you need the full name of the pod use the $HOSTNAME or the hostname command to get it**
+**If you need the full name of the pod, use `$HOSTNAME` or the `hostname` command**
 
-**Check the storage consumption of folder like target or node_module** If the storage consumption of those folder become too big, delete them
+**Watch the storage consumption of folders like `target` or `node_modules`** If those folders grow too big, delete them.
 
 ## Command
 
 ### Mise
 
 ```bash
-mise search <CLI NAME>      # Search if a cli/program exist in mise and could be added yo your usage
+mise search <CLI NAME>      # Search if a cli/program exists in mise and could be added for your usage
 mise use <CLI NAME>         # Install a new cli/program
 ```
 
 ### Code
 
 ```bash
-code-oss                    # Replace the simple code cli allowing to add workspace/folder to workspace or other command
+code-oss                    # Replaces the plain code cli: add a folder to the workspace or run any other code command
 ```
 
 ## Devfile
 
-A devfile is a yaml describing a cloud development environment, the schema can be found [here](https://github.com/devfile/api/blob/main/schemas/latest/devfile.json)
+A devfile is a yaml file describing a cloud development environment; the schema can be found [here](https://github.com/devfile/api/blob/main/schemas/latest/devfile.json).
 
 
 <!-- /Eclipse Che Dedicated instruction --->
@@ -46,41 +46,45 @@ A devfile is a yaml describing a cloud development environment, the schema can b
 
 ## Taskfile
 
-All the command are controlled through Taskfile and need the docs field filled in order tu understand what the command does.
+All the commands are controlled through Taskfile and need the `desc` field filled in so anyone can understand what the command does.
 
-If multiple command has the same target like launching test, split the command in a separate taskfile that will be put in the .task folder.
+If multiple commands share the same target (like launching tests), split them into a separate taskfile placed in the `.tasks` folder. Do not use `.task` (singular): that directory is Task's internal cache for checksums/fingerprints and should stay gitignored.
 
 ## Mise
 
-Mise is the de-facto package manager, you have no root right, never, and should use it if need come to be.
+Mise is the de-facto package manager. You never have root rights, so use mise whenever a new tool is needed.
+
+## Git / Commits
+
+Commits follow the Conventional Commits format, enforced by [Cocogitto](https://github.com/cocogitto/cocogitto) (`cog.toml`): the commit-msg hook runs `cog verify`, and the pre-commit hook runs `task recu`, `task lint`, gitleaks and the whitespace/end-of-line scripts. Write commit messages accordingly (e.g. `feat: ...`, `fix: ...`).
 
 ## Skills
 
-Weebo Dev skills exist, and can be found [here](https://github.com/batleforc/weebo-skills), the one very important if you do ui, is the monofolio one who is a design system. 
+Weebo Dev skills exist and can be found [here](https://github.com/batleforc/weebo-skills). The most important one if you work on UI is the monofolio skill, which is a design system.
 
 ## Doc / Gen / Guideline
 
 ### Backend
 
-If you create a backend that generate an api in rust, use [Utoipa](https://github.com/juhaku/utoipa) with it's scalar crate for the ui to write the swagger doc has you write the api
+If you create a backend that exposes an api in Rust, use [Utoipa](https://github.com/juhaku/utoipa) with its Scalar crate for the ui, so the swagger doc is written as you write the api.
 
 ### Frontend
 
-If you create a frontend that consume the backend, use the generated swagger api and generate the client to call it with [HeyApi](http://github.com/hey-api/hey-api) and it's axios plugin.
+If you create a frontend that consumes the backend, use the generated swagger spec and generate the client to call it with [HeyApi](https://github.com/hey-api/hey-api) and its axios plugin.
 
 ### Global Doc
 
-For every project, maintain a docs folder, either plain blank markdown or use a static fumadoc to generate the doc (ask the user for what he want)
+For every project, maintain a docs folder, either as plain markdown or with a static fumadocs site to generate the doc (ask the user which one they want).
 
 ### Version and security
 
-Always make a super audit task command, the goal of this command is to check if there is any cve that can be found against the package manager or the Dockerfile.
+Always create an audit task (invoked with `task audit`). Its goal is to check for any CVE in the dependencies and the Containerfile. Use the tool matching the stack: `cargo audit` (or `cargo deny`) for Rust, `pnpm audit` for JS/TS, and `trivy` (or `grype`) for the Containerfile/image.
 
-Also, has much as possible, use the latest version of a package if it doesn't have a CVE.
+Also, as much as possible, use the latest version of a package as long as it doesn't have a CVE.
 
 ### Dockerfile / Containerfile
 
-Has much has possible use a multi staged build in order to reduce the end image size. In the futur if you need reference to Containerfile, you can check [this repo](https://github.com/batleforc/batlehub) wich has a Containerfile and a Containerfile.hardened.
+As much as possible, use a multi-staged build in order to reduce the final image size. If you need a Containerfile reference, you can check [this repo](https://github.com/batleforc/batlehub) which has a Containerfile and a Containerfile.hardened.
 
 <!-- /WeeboDevEnv Dedicated instruction --->
 
@@ -90,6 +94,8 @@ Has much has possible use a multi staged build in order to reduce the end image 
 ## Golden Rule
 
 **Always prefix commands with `rtk`**. If RTK has a dedicated filter, it uses it. If not, it passes through unchanged. This means RTK is always safe to use.
+
+**Scope**: RTK applies to shell commands (git, cargo, tests, pnpm, gh, kubectl...). For reading and searching files, Claude Code's native tools (Read, Grep, Glob) remain the priority — do not replace them with `rtk read`/`rtk grep`/`rtk ls`; those are only a fallback when a shell pipeline is genuinely needed.
 
 **Important**: Even in command chains with `&&`, use `rtk`:
 ```bash
