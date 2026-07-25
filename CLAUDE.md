@@ -58,6 +58,8 @@ Mise is the de-facto package manager. You never have root rights, so use mise wh
 
 Commits follow the Conventional Commits format, enforced by [Cocogitto](https://github.com/cocogitto/cocogitto) (`cog.toml`): the commit-msg hook runs `cog verify`, and the pre-commit hook runs `task recu`, `task lint`, gitleaks and the whitespace/end-of-line scripts. Write commit messages accordingly (e.g. `feat: ...`, `fix: ...`).
 
+You don't have the right to commit directly has all commit should be signed and signed-off by the user, if you want to provide a commit message, do so by creating a file and providing the command to validate if the commit message is okay for the user. if you do so, always add that you are a co-owner.
+
 ## Skills
 
 Weebo Dev skills exist and can be found [here](https://github.com/batleforc/weebo-skills). The most important one if you work on UI is the monofolio skill, which is a design system.
