@@ -7,14 +7,19 @@ tasks:
   init:
     desc: "Init folder"
     cmds:
-      - mise upgrade
+      - mise install
       - cog install-hook -a -o
   recu:
     desc: "Recuring job like regenerating Swagger spec"
     cmds:
       - echo "Your future spec generating cmd"
-  
+
   lint:
     desc: "Linting your project to apply good practice"
     cmds:
       - echo "Something like cargo fmt && cargo clippy"
+
+  audit:
+    desc: "Check dependencies and Containerfile for CVE"
+    cmds:
+      - echo "Something like cargo audit, pnpm audit or trivy fs ."

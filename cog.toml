@@ -1,4 +1,4 @@
-from_latest_tag = false
+from_latest_tag = true
 ignore_merge_commits = false
 disable_changelog = false
 disable_bump_commit = false
@@ -18,20 +18,19 @@ pre_bump_hooks = []
 [git_hooks.commit-msg]
 script = """#!/bin/sh
 set -e
-cog verify --file $1
-cog check
+cog verify --file "$1"
 """
 
 [git_hooks.pre-commit]
 script = """#!/bin/sh
 set -e
 task recu
-git add . # in case recu needed to regenerate files, add need to be done before linting
+git add -u # in case recu needed to regenerate files, add need to be done before linting (-u: tracked files only)
 task lint
-git add . # in case linting fixed anything
-gitleaks git --pre-commit --redact --staged --verbose
+git add -u # in case linting fixed anything
 .hooks/end-of-line.sh
 .hooks/whitespace-fixer.sh
+gitleaks git --pre-commit --redact --staged --verbose
 """
 
 [commit_types]
@@ -41,7 +40,7 @@ release = { changelog_title = "Releases" }
 path = "CHANGELOG.md"
 template = "remote"
 remote = "github.com"
-repository = "proxyauthK8s"
+repository = "weebo-base"
 owner = "batleforc"
 
 [bump_profiles]

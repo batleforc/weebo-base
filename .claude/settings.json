@@ -8,7 +8,7 @@
     }
   },
   "enabledPlugins": {
-    "monofolio-design@weebo": {},
-    "batlehub@weebo": {}
+    "monofolio-design@weebo": true,
+    "batlehub@weebo": true
   }
 }
