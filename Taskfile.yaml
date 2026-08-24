@@ -7,7 +7,7 @@ tasks:
   init:
     desc: "Init folder"
     cmds:
-      - mise install
+      - task mise:install
       - cog install-hook -a -o
 
   init-repo:
