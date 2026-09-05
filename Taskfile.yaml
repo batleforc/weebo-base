@@ -2,18 +2,21 @@ version: "3"
 
 includes:
   mise: ./.tasks/mise.yaml
+  claude: ./.tasks/claude.yaml
+  template: ./.tasks/template.yaml
 
 tasks:
   init:
     desc: "Init folder"
     cmds:
       - task mise:install
+      - task claude:install
       - cog install-hook -a -o
 
   init-repo:
     desc: "Adapt the template to its new repo name (usage: task init-repo [NAME=my-project] [OWNER=batleforc], NAME defaults to the folder name)"
     vars:
-      NAME: '{{.NAME | default (base .ROOT_DIR)}}'
+      NAME: "{{.NAME | default (base .ROOT_DIR)}}"
       OWNER: '{{.OWNER | default "batleforc"}}'
     preconditions:
       - sh: '[ "{{.NAME}}" != "weebo-base" ]'
