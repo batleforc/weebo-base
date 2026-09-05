@@ -1,4 +1,4 @@
-# Weebo base project
+# Weebo base project
 
 This repository is meant to be a template used to bootstrap future projects.
 
