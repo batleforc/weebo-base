@@ -12,3 +12,6 @@ dist/
 # Local env files
 .env
 .env.local
+
+# wska links (absolute paths into the local wska clone), re-run `task skills:install`
+.claude/skills/

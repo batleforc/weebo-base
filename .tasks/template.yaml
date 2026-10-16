@@ -10,9 +10,10 @@ vars:
     .hooks/whitespace-fixer.sh
     .rtk/filters.toml
     .tasks/mise.yaml
-    .tasks/claude.yaml
+    .tasks/skills.yaml
     .tasks/template.yaml
     .github/CODEOWNERS
+    .github/workflows/update.yml
     .forgejo/CODEOWNERS
     LICENSE.md
   # Files every project customises: they are only ever diffed, never overwritten.
