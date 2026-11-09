@@ -1,10 +1,12 @@
 [tools]
 cocogitto = "latest"
-node = "latest"
+node = "lts"
 rust = "latest"
 task = "latest"
 gitleaks = "latest"
 jq = "latest"
+shellcheck = "latest"
+trivy = "latest"
 claude = "latest"
 rtk = "latest"
 uv = "latest"

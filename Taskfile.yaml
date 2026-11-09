@@ -12,6 +12,7 @@ tasks:
       - task mise:install
       - task skills:install
       - cog install-hook -a -o
+      - graphify update .
 
   init-repo:
     desc: "Adapt the template to its new repo name (usage: task init-repo [NAME=my-project] [OWNER=batleforc], NAME defaults to the folder name)"
@@ -25,12 +26,25 @@ tasks:
       - "sed -i 's/^  name: weebo-base$/  name: {{.NAME}}/' devfile.yaml"
       - sed -i 's/^repository = "weebo-base"$/repository = "{{.NAME}}"/' cog.toml
       - sed -i 's/^owner = ".*"$/owner = "{{.OWNER}}"/' cog.toml
+      - sed -i 's/^\* @.*$/* @{{.OWNER}}/' .github/CODEOWNERS .forgejo/CODEOWNERS
       - |
         cat > readme.md <<'EOF'
         # {{.NAME}}
 
         Project bootstrapped from the [weebo-base](https://github.com/batleforc/weebo-base) template.
+
+        ## Setup
+
+        ```bash
+        mise trust && mise install && task init
+        ```
         EOF
+      - |
+        if command -v gh >/dev/null && gh api -X PUT "repos/{{.OWNER}}/{{.NAME}}/actions/permissions/workflow" -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true; then
+          echo "GitHub Actions can now open the weekly update pull request"
+        else
+          echo "WARNING: enable 'Allow GitHub Actions to create and approve pull requests' in Settings > Actions, the update workflow needs it"
+        fi
       - echo "Repo adapted to '{{.NAME}}' (owner '{{.OWNER}}'), review the changes then commit them"
   update:
     desc: "Bump every mise tool to its latest version (mise.toml ranges included) and regenerate mise.lock"
@@ -46,9 +60,11 @@ tasks:
   lint:
     desc: "Linting your project to apply good practice"
     cmds:
-      - echo "Something like cargo fmt && cargo clippy"
+      # Add the project linters here, something like cargo fmt && cargo clippy
+      - shellcheck .hooks/*.sh
 
   audit:
     desc: "Check dependencies and Containerfile for CVE"
     cmds:
-      - echo "Something like cargo audit, pnpm audit or trivy fs ."
+      # Add the stack scanners here, something like cargo audit or pnpm audit
+      - trivy fs --scanners vuln,misconfig --severity HIGH,CRITICAL --exit-code 1 .

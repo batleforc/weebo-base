@@ -2,6 +2,18 @@
 
 This repository is meant to be a template used to bootstrap future projects.
 
+## Starting a new project
+
+Create a repository from this template, clone it, then:
+
+```bash
+mise trust && mise install   # task itself comes from mise
+task init                    # tools, skills, git hooks, knowledge graph
+task init-repo               # rename the project, set CODEOWNERS, allow the update workflow to open PRs
+```
+
+`task init-repo` needs an authenticated `gh`. Without it, enable "Allow GitHub Actions to create and approve pull requests" in Settings > Actions.
+
 ## Eclipse Che
 
 Those future projects are built around my way of viewing Eclipse Che and how i work with it. It's not, at least now, how it's commonly viewed.

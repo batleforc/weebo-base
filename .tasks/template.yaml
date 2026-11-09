@@ -7,14 +7,13 @@ vars:
   # Files the template fully owns: task:template:sync overwrites them without asking.
   OWNED: >-
     .hooks/end-of-line.sh
+    .hooks/restage.sh
     .hooks/whitespace-fixer.sh
     .rtk/filters.toml
-    .tasks/mise.yaml
     .tasks/skills.yaml
     .tasks/template.yaml
-    .github/CODEOWNERS
+    .github/dependabot.yml
     .github/workflows/update.yml
-    .forgejo/CODEOWNERS
     LICENSE.md
   # Files every project customises: they are only ever diffed, never overwritten.
   REVIEW: >-
@@ -22,6 +21,13 @@ vars:
     CLAUDE.md
     .claude/CLAUDE.md
     .claude/settings.json
+    .claude/wska.toml
+    .example/Cargo.toml
+    .forgejo/CODEOWNERS
+    .github/CODEOWNERS
+    .github/workflows/ci.yml
+    .gitignore
+    .tasks/mise.yaml
     cog.toml
     mise.toml
     devfile.yaml
@@ -58,6 +64,16 @@ tasks:
     preconditions:
       - sh: "git diff --quiet && git diff --cached --quiet"
         msg: "commit or stash your changes first, sync overwrites files in place"
+    cmds:
+      # A new process re-reads this file, so files just added to the lists are applied in this run.
+      - cp "{{.CACHE}}/.tasks/template.yaml" "{{.ROOT_DIR}}/.tasks/template.yaml"
+      - task template:apply
+
+  apply:
+    desc: "Apply the template already fetched in .task/template, prefer 'task template:sync' which fetches it first"
+    preconditions:
+      - sh: '[ -d "{{.CACHE}}" ]'
+        msg: "nothing fetched yet, run 'task template:sync'"
     cmds:
       - |
         set -eu

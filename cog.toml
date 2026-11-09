@@ -24,10 +24,13 @@ cog verify --file "$1"
 [git_hooks.pre-commit]
 script = """#!/bin/sh
 set -e
-task recu
-git add -u # in case recu needed to regenerate files, add need to be done before linting (-u: tracked files only)
+unstaged=$(mktemp)
+trap 'rm -f "$unstaged"' EXIT
+git -c core.quotePath=false diff --name-only > "$unstaged"
+task recu # a file generated here is only committed if already staged: `git add <path>` it in the recu task
+.hooks/restage.sh "$unstaged"
 task lint
-git add -u # in case linting fixed anything
+.hooks/restage.sh "$unstaged" # in case linting fixed anything
 .hooks/end-of-line.sh
 .hooks/whitespace-fixer.sh
 gitleaks git --pre-commit --redact --staged --verbose

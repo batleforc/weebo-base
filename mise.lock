@@ -87,6 +87,16 @@ url_api = "https://api.github.com/repos/rtk-ai/rtk/releases/assets/675762778"
 version = "1.99.1"
 backend = "core:rust"
 
+[[tools.shellcheck]]
+version = "0.11.0"
+backend = "aqua:koalaman/shellcheck"
+
+[tools.shellcheck."platforms.linux-x64"]
+checksum = "sha256:8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198"
+checksum_source = "mise-versions"
+url = "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz"
+url_api = "https://api.github.com/repos/koalaman/shellcheck/releases/assets/279056942"
+
 [[tools.task]]
 version = "3.54.0"
 backend = "aqua:go-task/task"
@@ -95,6 +105,16 @@ backend = "aqua:go-task/task"
 checksum = "sha256:680859dbb4d881a9c72d4d9a8f510825450849af8567deacd7302c01124416fb"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090073"
+
+[[tools.trivy]]
+version = "0.76.1"
+backend = "aqua:aquasecurity/trivy"
+
+[tools.trivy."platforms.linux-x64"]
+checksum = "sha256:c7cbe3137fb8a48a17574bede3dd6beb16742d1e9772929940fc90082c39d9c0"
+url = "https://github.com/aquasecurity/trivy/releases/download/v0.76.1/trivy_0.76.1_Linux-64bit.tar.gz"
+url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/662254617"
+provenance = "cosign"
 
 [[tools.uv]]
 version = "0.13.7"

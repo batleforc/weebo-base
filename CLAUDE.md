@@ -58,7 +58,7 @@ Mise is the de-facto package manager. You never have root rights, so use mise wh
 
 Commits follow the Conventional Commits format, enforced by [Cocogitto](https://github.com/cocogitto/cocogitto) (`cog.toml`): the commit-msg hook runs `cog verify`, and the pre-commit hook runs `task recu`, `task lint`, gitleaks and the whitespace/end-of-line scripts. Write commit messages accordingly (e.g. `feat: ...`, `fix: ...`).
 
-You don't have the right to commit directly has all commit should be signed and signed-off by the user, if you want to provide a commit message, do so by creating a file and providing the command to validate if the commit message is okay for the user. if you do so, always add that you are a co-owner.
+You don't have the right to commit directly as all commits should be signed and signed-off by the user. If you want to provide a commit message, do so by creating a file and providing the command to validate if the commit message is okay for the user. If you do so, always add that you are a co-author.
 
 ## Skills
 
@@ -103,7 +103,7 @@ output was clearly expected, contradicting its exit code, or garbled.
 
 ## graphify
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+`task init` builds a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
 
 Rules:
 - When graphify-out/graph.json exists, run `graphify query "<question>"` before your first grep, search or source-file read for a codebase question, and put this rule in every subagent prompt that explores code. Read raw files only for lines the graph or an earlier read already located. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
